@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css" />
+    <title>Rock Paper Scissors</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+.container{
+    width: 400px;
+    height: auto;
+}
+.title{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f26;
+    color: aliceblue;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+    margin-left: -5px;
+}
+.title span{
+    margin: 0 15px;
+    color: yellow;
+}
+.box{
+    width: 110px;
+    height: 110px;
+    background: #f26;
+    float: left;
+    margin: 10px;
+    cursor: pointer;
+    transition: .2s;
+    font-size: 60px;
+    display: flex;
+    font-weight: 500;
+    color: white;
+    justify-content: center;
+    align-items: center;
+}
+.box:hover{
+    background: #000;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title"><span>X O</span> GAME</div>
+        
+        <div class="box" id="item1" onclick="StartGame(this.id)"></div>
+        <div class="box" id="item2" onclick="StartGame(this.id)"></div>
+        <div class="box" id="item3" onclick="StartGame(this.id)"></div>
+ 
+        <div class="box" id="item4" onclick="StartGame(this.id)"></div>
+        <div class="box" id="item5" onclick="StartGame(this.id)"></div>
+        <div class="box" id="item6" onclick="StartGame(this.id)"></div>
+       
+        <div class="box" id="item7" onclick="StartGame(this.id)"></div>
+        <div class="box" id="item8" onclick="StartGame(this.id)"></div>
+        <div class="box" id="item9" onclick="StartGame(this.id)"></div>
+    </div>
+
+<script>
+    let turn = 'X';
+
+let title = document.querySelector('.title');
+let T_items =[];
+let drawCount=0;
+const GameOVER = (num1,num2,num3) =>{
+   if(num1 == 0){
+    title.innerHTML = 'DRAW';
+    setInterval(function(){title.innerHTML +='.'},800);
+    setInterval(function(){location.reload()},3000);
+   }
+   else{
+    title.innerHTML = `${T_items[num1]} WINNER`;
+    document.getElementById('item'+num1).style.background='#000';
+    document.getElementById('item'+num2).style.background='#000';
+    document.getElementById('item'+num3).style.background='#000';
+
+    setInterval(function(){title.innerHTML +='.'},600);
+    setInterval(function(){location.reload()},2000);
+   }
+   }
+
+const Winner = () =>{
+    for(let i =1 ;i<10 ;i++){
+     T_items[i]=document.getElementById(`item${i}`).innerHTML;
+    }
+
+    if(T_items[1] === T_items[2] && T_items[2] === T_items[3] && T_items[1] != ''){
+       GameOVER(1,2,3);
+    }else if(T_items[4] === T_items[5] && T_items[5] === T_items[6] && T_items[5] !== ''){
+        GameOVER(4,5,6);
+    }else if(T_items[7] === T_items[8] && T_items[8] === T_items[9] && T_items[8] !== ''){
+        GameOVER(7,8,9);
+    }else if(T_items[1] === T_items[4] && T_items[4] === T_items[7] && T_items[1] !== ''){
+        GameOVER(1,4,7);
+    }else if(T_items[2] === T_items[5] && T_items[5] === T_items[8] && T_items[5] !== ''){
+        GameOVER(2,5,8);
+    }else if(T_items[3] === T_items[6] && T_items[6] === T_items[9] && T_items[9] !== ''){
+        GameOVER(3,6,9);
+    }else if(T_items[1] === T_items[5] && T_items[5] === T_items[9] && T_items[1] !== ''){
+        GameOVER(1,5,9);
+    }else if(T_items[3] === T_items[5] && T_items[5] === T_items[7] && T_items[5] !== ''){
+        GameOVER(3,5,7);
+    }
+    Draw();
+}
+
+const Draw = () =>{
+    for(let i=1;i<10;i++){
+        if(T_items[i] === 'X' || T_items[i] === 'O'){
+            drawCount++;
+        }
+    }
+    if(drawCount == 9) GameOVER(0,0,0);
+    else drawCount =0;
+}
+const StartGame = (id) =>{
+    let box = document.getElementById(id);
+   if(box.innerHTML == '' && turn === 'X'){
+     box.innerHTML = 'X';
+     turn = 'O';
+     title.innerHTML='O';
+   }else  if(box.innerHTML == '' && turn === 'O'){
+    box.innerHTML = 'O';
+    turn = 'X';
+    title.innerHTML='X';
+   }
+   Winner();
+}
+</script>
+</body>
+</html>
